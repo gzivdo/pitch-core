@@ -1,0 +1,34 @@
+pitch-core-py
+Copyright 2026 gzivdo
+
+Dual-licensed under either:
+
+  • Apache License, Version 2.0 (LICENSE-APACHE), or
+  • MIT License (LICENSE-MIT),
+
+at your option.
+
+============================================================================
+
+AUTHORSHIP
+
+Substantial portions of the code in this crate were authored with
+Claude Opus 4.7 (Anthropic) acting as an implementation tool under
+direction and review by the copyright holder. Per US Copyright Office
+guidance (Jan 2025), AI-generated material is not separately
+copyrightable; copyright attaches only to the human contributions of
+selection, arrangement, direction, and modification.
+
+============================================================================
+
+Build profiles:
+
+  • default                — DSP-only (swipe, pyin, praat_ac); no ONNX deps.
+  • --features onnx        — adds swiftf0, crepe (both MIT upstream weights).
+  • --features onnx,pesto  — additionally adds pesto. PESTO upstream is
+                             LGPL-3.0 — exported PESTO ONNX inherits and
+                             must be redistributed under LGPL-3.0 terms.
+
+Model weights are NOT bundled. Download separately and pass paths to
+constructors. See `crates/pitch-core-onnx/NOTICE` for upstream model
+license details.

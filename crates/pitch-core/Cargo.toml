@@ -1,0 +1,36 @@
+[package]
+name = "pitch-core"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+homepage.workspace = true
+description = "Streaming pitch (f0) tracker — pure-DSP backends (SWIPE', pYIN, Praat-AC). No model files, no GPU."
+readme = "README.md"
+keywords = ["audio", "pitch", "f0", "dsp", "music"]
+categories = ["multimedia::audio", "science"]
+
+[lib]
+name = "pitch_core"
+crate-type = ["rlib"]
+
+[features]
+default = ["confidence-calibration"]
+# Per-backend sigmoid-temperature scaling on confidence outputs, fitted
+# by NLL minimization against Vocadito GT (see ANALYSIS.md). Improves
+# voicing-classification F1 by 3-17 pp depending on backend. Disable to
+# recover the raw model/DSP confidence values.
+confidence-calibration = []
+
+[dependencies]
+ndarray = { workspace = true }
+realfft = { workspace = true }
+thiserror = { workspace = true }
+rubato = { workspace = true }
+swipe-rs = { workspace = true }
+pyin = { workspace = true }
+
+[dev-dependencies]
+hound = "3.5"

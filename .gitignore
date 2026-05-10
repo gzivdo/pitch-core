@@ -1,0 +1,33 @@
+# Cargo
+target/
+Cargo.lock.bak
+**/*.rs.bk
+
+# Models — never commit weights
+*.onnx
+*.pt
+*.bin
+models/
+
+# Test fixtures larger than what fits comfortably in git
+*.wav
+!tests/fixtures/*.wav
+!examples/fixtures/*.wav
+
+# Editor / OS
+.idea/
+.vscode/
+*.swp
+.DS_Store
+
+# Python (for pitch-core-py local builds)
+__pycache__/
+*.pyc
+.venv/
+*.so
+*.dylib
+*.dll
+dist/
+build/
+*.egg-info/
+maturin_target/

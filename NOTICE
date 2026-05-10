@@ -1,0 +1,72 @@
+pitch-core (workspace: pitch-core, pitch-core-onnx, pitch-core-py)
+Copyright 2026 gzivdo
+
+Dual-licensed under either:
+
+  • Apache License, Version 2.0 (LICENSE-APACHE), or
+  • MIT License (LICENSE-MIT),
+
+at your option.
+
+============================================================================
+
+AUTHORSHIP
+
+Substantial portions of the code in this workspace were authored
+with Claude Opus 4.7 (Anthropic) acting as an implementation tool
+under direction and review by the copyright holder. Per US Copyright
+Office guidance ("Copyright and Artificial Intelligence", Part 2,
+January 2025), AI-generated material is not separately copyrightable;
+copyright in this work attaches only to the human contributions of
+selection, arrangement, direction, and modification.
+
+============================================================================
+
+pitch-core is a streaming pitch tracker that wires several published
+algorithms behind a single trait. The DSP algorithms themselves are not
+copyrightable (US §102(b); Feist v. Rural, 1991; EU Directive
+2009/24/EC). All Rust code in this crate is independent reimplementation
+or original glue; no code from upstream reference implementations was
+copied.
+
+Algorithm references:
+
+  • SWIPE'/SWIPE (Camacho & Harris 2008; Marttila & Reiss 2025)
+    — implemented via the `swipe-rs` crate (Apache-2.0).
+
+  • pYIN (Mauch & Dixon 2014)
+    — implemented via the `pyin` crate (MIT, Sytronik).
+
+  • Praat-style autocorrelation (Boersma 1993)
+    — independent FFT-based reimplementation in `praat_ac.rs`.
+
+  • CREPE (Kim, Salamon, Li, Bello 2018)
+    — ONNX inference only; pre-converted weights from `yqzhishen/onnxcrepe`
+      (MIT) are loaded at runtime via a user-supplied path. This crate
+      ships no weights.
+
+  • PESTO (Riou et al. 2023)
+    — ONNX inference only; the upstream PESTO project (SonyCSLParis/pesto,
+      pesto-pitch on PyPI) is licensed under LGPL-3.0. PESTO weights have
+      no separate license declared upstream; users redistributing exported
+      ONNX should treat them as LGPL-3.0 unless upstream clarifies. This
+      crate ships no weights.
+
+  • SwiftF0 (Lemonfold)
+    — ONNX inference only; upstream model is MIT. This crate ships no
+      weights.
+
+============================================================================
+
+THIRD-PARTY DEPENDENCIES
+
+This crate links the following third-party crates at compile time. All
+are permissively licensed (MIT or Apache-2.0):
+
+  • ndarray, ort, realfft, rubato, thiserror — MIT OR Apache-2.0
+  • pyin (Sytronik) — MIT
+  • swipe-rs — Apache-2.0
+  • hound (dev-dep) — Apache-2.0
+
+Run `cargo about generate` against this crate to produce a complete
+attribution file for redistributable binaries.

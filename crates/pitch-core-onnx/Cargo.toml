@@ -1,0 +1,37 @@
+[package]
+name = "pitch-core-onnx"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+homepage.workspace = true
+description = "ONNX backends for pitch-core: CREPE, PESTO, SwiftF0. User supplies model files."
+readme = "README.md"
+keywords = ["audio", "pitch", "f0", "onnx", "neural"]
+categories = ["multimedia::audio", "science"]
+
+[lib]
+name = "pitch_core_onnx"
+crate-type = ["rlib"]
+
+[features]
+default = ["confidence-calibration"]
+# Per-backend sigmoid-temperature scaling on confidence outputs (forwards
+# to pitch-core's feature). Default on. Disable to recover raw values.
+confidence-calibration = ["pitch-core/confidence-calibration"]
+# Enables the PESTO backend. PESTO upstream is LGPL-3.0 — exported PESTO
+# weights inherit and must be redistributed under LGPL-3.0 terms.
+# Off by default so MIT/Apache consumers don't accidentally pull it.
+pesto = []
+
+[dependencies]
+pitch-core = { path = "../pitch-core", version = "0.1" }
+ndarray = { workspace = true }
+ort = { workspace = true }
+realfft = { workspace = true }
+thiserror = { workspace = true }
+
+[dev-dependencies]
+hound = "3.5"

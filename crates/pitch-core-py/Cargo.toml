@@ -1,0 +1,39 @@
+[package]
+name = "pitch-core-py"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+homepage.workspace = true
+description = "Python bindings for pitch-core (PyO3). DSP backends always; ONNX backends behind the `onnx` feature."
+readme = "README.md"
+keywords = ["audio", "pitch", "f0", "python", "pyo3"]
+categories = ["multimedia::audio", "science", "api-bindings"]
+
+[lib]
+name = "pitch_core_py"
+crate-type = ["cdylib"]
+
+[features]
+default = ["confidence-calibration"]
+# Per-backend sigmoid-temperature scaling on confidence outputs (forwards
+# to pitch-core / pitch-core-onnx).
+confidence-calibration = [
+    "pitch-core/confidence-calibration",
+    "pitch-core-onnx?/confidence-calibration",
+]
+# Pulls in ONNX Runtime + CREPE/SwiftF0 wrappers. Adds ~50 MB of
+# binary downloads at build time. Skip for DSP-only installs.
+onnx = ["dep:pitch-core-onnx"]
+# Additionally enables the PESTO backend. Implies `onnx`. PESTO upstream
+# is LGPL-3.0 — exported weights inherit and must be redistributed under
+# LGPL-3.0 terms. Off by default.
+pesto = ["onnx", "pitch-core-onnx/pesto"]
+
+[dependencies]
+pitch-core = { path = "../pitch-core", version = "0.1" }
+pitch-core-onnx = { path = "../pitch-core-onnx", version = "0.1", optional = true }
+pyo3 = { workspace = true, features = ["extension-module"] }
+numpy = { workspace = true }

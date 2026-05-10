@@ -1,0 +1,74 @@
+pitch-core-onnx
+Copyright 2026 gzivdo
+
+Dual-licensed under either:
+
+  • Apache License, Version 2.0 (LICENSE-APACHE), or
+  • MIT License (LICENSE-MIT),
+
+at your option.
+
+============================================================================
+
+AUTHORSHIP
+
+Substantial portions of the code in this crate were authored with
+Claude Opus 4.7 (Anthropic) acting as an implementation tool under
+direction and review by the copyright holder. Per US Copyright Office
+guidance (Jan 2025), AI-generated material is not separately
+copyrightable; copyright attaches only to the human contributions of
+selection, arrangement, direction, and modification.
+
+============================================================================
+
+ONNX BACKENDS
+
+This crate provides Rust streaming wrappers around three open-source
+neural pitch estimation models. The Rust code in this crate is original
+and does not include code from any upstream project. **No model weights
+are bundled in this crate.** End-users must obtain weights from
+upstream and comply with each model's license when redistributing
+binaries that bundle or download them.
+
+  • SwiftF0 (Lemonfold)
+    — Upstream license: MIT.
+    — Recommended source: `lars76/swift-f0` (PyPI wheel).
+    — No additional obligations beyond MIT attribution.
+
+  • CREPE (Kim, Salamon, Li, Bello — ICASSP 2018)
+    — Upstream license: MIT.
+    — Recommended source: `yqzhishen/onnxcrepe` (pre-converted ONNX, MIT).
+    — No additional obligations beyond MIT attribution.
+
+  • RMVPE (Wei et al. — Interspeech 2023, arXiv 2306.15412)
+    — Upstream code license: Apache-2.0 (Dream-High/RMVPE).
+    — Recommended source: `lj1995/VoiceConversionWebUI/rmvpe.onnx` on
+      HuggingFace (~362 MB, MIT mirror).
+    — Vocal-tuned, robust to polyphonic accompaniment. Permissive
+      licensing — no obligations beyond Apache-2.0 / MIT attribution.
+
+  • PESTO (Riou et al. — ISMIR 2023) — gated behind the `pesto` feature
+    — Upstream license: **LGPL-3.0**. The pretrained weights have no
+      separate license declared upstream and so inherit LGPL-3.0 by
+      default. Treat exported PESTO ONNX as LGPL-3.0 derivative when
+      redistributing.
+    — Source: `SonyCSLParis/pesto` GitHub, `pesto-pitch` PyPI.
+    — The `pesto` feature is **off by default** so that pure-MIT/Apache
+      consumers don't accidentally pull a backend whose weights carry
+      LGPL-3.0 obligations. Enable it explicitly if you intend to use
+      PESTO and you are prepared to comply with LGPL-3.0 on the model
+      file you distribute.
+
+============================================================================
+
+THIRD-PARTY CRATE DEPENDENCIES
+
+  • pitch-core — MIT OR Apache-2.0 (this workspace)
+  • ndarray, ort, thiserror — MIT OR Apache-2.0
+
+The `ort` crate by default downloads pre-built ONNX Runtime binaries
+(~50 MB). See <https://crates.io/crates/ort> for build-time options
+that link a system-provided ONNX Runtime instead.
+
+Run `cargo about generate` against this crate to produce a complete
+attribution file for redistributable binaries.

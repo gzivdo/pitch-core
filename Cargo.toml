@@ -1,0 +1,38 @@
+[workspace]
+resolver = "2"
+members = [
+    "crates/pitch-core",
+    "crates/pitch-core-onnx",
+    "crates/pitch-core-py",
+]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.75"
+authors = ["gzivdo"]
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/gzivdo/pitch-core"
+homepage = "https://github.com/gzivdo/pitch-core"
+
+[workspace.dependencies]
+# Shared across pitch-core and pitch-core-onnx
+ndarray = "0.17"
+realfft = "3.5"
+thiserror = "2"
+rubato = "0.16"
+
+# pitch-core (DSP only)
+swipe-rs = "0.3"
+pyin = "1.2"
+
+# pitch-core-onnx
+ort = { version = "2.0.0-rc.12", default-features = false, features = ["std", "ndarray", "download-binaries", "tls-rustls"] }
+
+# pitch-core-py
+pyo3 = { version = "0.28", features = ["abi3-py39"] }
+numpy = "0.28"
+
+[profile.release]
+opt-level = 3
+lto = "thin"
