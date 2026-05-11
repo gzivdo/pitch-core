@@ -77,10 +77,15 @@ impl PitchEstimator for PyinEstimator {
 
         while self.buffer.len() >= BATCH_SAMPLES {
             let chunk: Vec<f64> = self.buffer.drain(..BATCH_SAMPLES).collect();
+            // Reflect pad mode matches librosa.pyin's default and gives
+            // clean edges between batches. Zero-pad (the previous
+            // setting) collapsed voiced_prob on the first/last ~40 ms
+            // of each batch, which downstream consumers saw as periodic
+            // 333 ms-cycle gaps in the trail on sustained voice.
             let (_timestamps, f0s, _voiced, voiced_prob) = self.executor.pyin(
                 &chunk,
                 f64::NAN, // unvoiced sentinel
-                Framing::Center(PadMode::Constant(0.0)),
+                Framing::Center(PadMode::Reflect),
             );
 
             let time_offset = self.samples_processed as f32 / PYIN_SR as f32;

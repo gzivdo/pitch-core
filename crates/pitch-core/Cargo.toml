@@ -1,6 +1,9 @@
 [package]
 name = "pitch-core"
-version.workspace = true
+# Bumped independently of the workspace (which stays at 0.1.0 for
+# pitch-core-onnx / pitch-core-py — those are unchanged). pYIN
+# Reflect-pad fix justifies a patch bump on pitch-core only.
+version = "0.1.1"
 edition.workspace = true
 rust-version.workspace = true
 authors.workspace = true
